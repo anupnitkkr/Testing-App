@@ -1,16 +1,30 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Settings from "../src/modules/settings/settings";
+import React, { Component } from "react";
 import EditSetting from "../src/modules/editSettings/editSetting";
-import viewSettings from "../src/modules/viewSettings";
-import { Router, Route, IndexRoute, hashHistory } from "react-router";
+import Settings from "../src/modules/settings";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PageTransition from "react-router-page-transition";
 
-ReactDOM.render(
-    <Router history={hashHistory}>
-        <Route path="/" component={Settings}>
-            <IndexRoute component={viewSettings} />
-            <Route path="/settings/:setId" component={EditSetting} />
-        </Route>
-    </Router>,
-    document.getElementById("app")
-);
+class App extends Component {
+    render() {
+        return (
+            <Router>
+                <Route
+                    render={({ location }) => (
+                        <PageTransition timeout={1000}>
+                            <Switch location={location}>
+                                <Route exact path="/" component={Settings} />
+                                {/* <Route path="/list" component={List}/> */}
+                                <Route
+                                    path="/settings/:setId"
+                                    component={EditSetting}
+                                />
+                            </Switch>
+                        </PageTransition>
+                    )}
+                />
+            </Router>
+        );
+    }
+}
+
+export default App;
